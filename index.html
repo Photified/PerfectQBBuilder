@@ -111,53 +111,69 @@
             <div class="bg-slate-850 border border-slate-700/80 rounded-2xl p-4 shadow-lg space-y-3 relative">
                 <h4 class="text-xs font-bold uppercase text-slate-400 tracking-wider text-center">Biometric Build Mapping</h4>
                 
-                <div class="relative w-full h-80 bg-slate-900/60 border border-slate-800 rounded-xl overflow-hidden flex justify-center items-center">
+                <div class="relative w-full h-[360px] bg-slate-900/60 border border-slate-800 rounded-xl overflow-hidden flex items-center justify-between p-4">
                     
                     <!-- SVG Grid Blueprint Underlay background -->
                     <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: linear-gradient(to right, #334155 1px, transparent 1px), linear-gradient(to bottom, #334155 1px, transparent 1px); background-size: 20px 20px;"></div>
 
-                    <!-- Centered Front-Facing Football Player Wireframe Silhouette -->
-                    <svg class="w-auto h-64 text-slate-700/50 fill-current drop-shadow-[0_0_15px_rgba(16,185,129,0.1)]" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zm3.5 5.5h-7A2.5 2.5 0 0 0 6 10v4.5a1.5 1.5 0 0 0 1.5 1.5h1v6a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-5h1v5a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-6h1a1.5 1.5 0 0 0 1.5-1.5V10a2.5 2.5 0 0 0-2.5-2.5z"/>
-                    </svg>
-
-                    <!-- ANATOMY MAPPING OVERLAYS WITH TARGETED POINTER LABELS -->
-                    <!-- Game IQ -> Head -->
-                    <div class="absolute top-[4%] left-1/2 -translate-x-1/2 bg-slate-950/90 border border-cyan-500 rounded-md px-2 py-0.5 text-[10px] text-center shadow-md">
-                        <span class="text-slate-400 block uppercase font-medium tracking-tight">🧠 Game IQ</span>
-                        <span id="view-gameIQ" class="text-cyan-400 font-bold text-sm">--</span>
+                    <!-- LEFT SIDE: Polished Minimalist QB Passing/Throwing Silhouette -->
+                    <div class="w-[45%] h-full flex justify-center items-center relative z-10 select-none">
+                        <svg class="w-full h-auto max-h-[300px] text-slate-700/60 fill-current drop-shadow-[0_0_20px_rgba(16,185,129,0.15)]" viewBox="0 0 120 160" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Helmet, Visor & Face Mask details -->
+                            <path d="M58 20c0-4.4 3.6-8 8-8s8 3.6 8 8c0 .8-.1 1.5-.4 2.2h3.4c.5 0 .8.4.7.9l-1.2 4.5c-.2.7-.8 1.2-1.5 1.2h-3.3c-1.3 2-3.5 3.2-5.7 3.2-3.9 0-7.3-2.8-7.9-6.6-.1-.5-.1-1-.1-1.4z"/>
+                            <path class="text-cyan-400/40" d="M66 16h6v4h-6z"/>
+                            <!-- Broad Shoulder Pads & Torso Frame -->
+                            <path d="M38 38c6-4 14-6 26-6s22 2 28 6c4 3 6 8 4 15l-6 24c-1 4-5 7-10 7H52c-5 0-9-3-10-7l-6-24c-2-7 0-12 4-15z"/>
+                            <!-- Throwing Arm Raised & Cocked back with Football Asset -->
+                            <path d="M34 40c-3 1-8 6-10 11-2 5-1 9 3 7s11-9 11-13c0-2-2-6-4-5z"/>
+                            <path class="text-amber-600/80" d="M20 54c-1.5-3-1.5-7 0-10 2-3 6-4 9-2 3 1.5 4 5.5 2 8.5-2 3-6 4-11 3.5z"/>
+                            <!-- Front Supporting Guide Arm -->
+                            <path d="M90 42c4 3 9 9 12 15 2 4 0 7-3 5s-8-7-10-11c-2-3-1-7 1-9z"/>
+                            <!-- Athletic Lower Body / Legs Stance Base -->
+                            <path d="M46 83h26v8l10 32c2 5 0 9-5 9s-9-4-11-12l-5-18-5 18c-2 8-6 12-11 12s-7-4-5-9l10-32v-8z"/>
+                        </svg>
                     </div>
 
-                    <!-- Arm Strength -> Throwing Arm -->
-                    <div class="absolute top-[26%] right-[6%] bg-slate-950/90 border border-emerald-500 rounded-md px-2 py-0.5 text-[10px] text-center shadow-md">
-                        <span class="text-slate-400 block uppercase font-medium tracking-tight">💪 Arm Strength</span>
-                        <span id="view-arm" class="text-emerald-400 font-bold text-sm">--</span>
-                    </div>
+                    <!-- RIGHT SIDE: Uniformly Balanced, Cleanly Stacked Biometric Attributes Column -->
+                    <div class="w-[50%] h-full flex flex-col justify-between py-1 relative z-20">
+                        
+                        <!-- Game IQ Block -->
+                        <div class="bg-slate-950/80 border border-cyan-500/80 rounded-xl px-3 py-1.5 flex justify-between items-center shadow-md">
+                            <span class="text-slate-400 uppercase font-bold tracking-wider text-[10px]">🧠 Game IQ</span>
+                            <span id="view-gameIQ" class="text-cyan-400 font-black text-sm">--</span>
+                        </div>
 
-                    <!-- Toughness -> Heart/Chest Core -->
-                    <div class="absolute top-[32%] left-[6%] bg-slate-950/90 border border-rose-500 rounded-md px-2 py-0.5 text-[10px] text-center shadow-md">
-                        <span class="text-slate-400 block uppercase font-medium tracking-tight">❤️ Toughness</span>
-                        <span id="view-toughness" class="text-rose-400 font-bold text-sm">--</span>
-                    </div>
+                        <!-- Arm Strength Block -->
+                        <div class="bg-slate-950/80 border border-emerald-500/80 rounded-xl px-3 py-1.5 flex justify-between items-center shadow-md">
+                            <span class="text-slate-400 uppercase font-bold tracking-wider text-[10px]">💪 Arm Str</span>
+                            <span id="view-arm" class="text-emerald-400 font-black text-sm">--</span>
+                        </div>
 
-                    <!-- Physical Size -> Full Frame/Torso -->
-                    <div class="absolute top-[52%] right-[6%] bg-slate-950/90 border border-amber-500 rounded-md px-2 py-0.5 text-[10px] text-center shadow-md">
-                        <span class="text-slate-400 block uppercase font-medium tracking-tight">⚖️ Size</span>
-                        <span id="view-size" class="text-amber-400 font-bold text-sm">--</span>
-                    </div>
+                        <!-- Base Speed Block -->
+                        <div class="bg-slate-950/80 border border-yellow-500/80 rounded-xl px-3 py-1.5 flex justify-between items-center shadow-md">
+                            <span class="text-slate-400 uppercase font-bold tracking-wider text-[10px]">⚡ Speed</span>
+                            <span id="view-speed" class="text-yellow-400 font-black text-sm">--</span>
+                        </div>
 
-                    <!-- Elusiveness -> Hips/Core Agility -->
-                    <div class="absolute top-[58%] left-[6%] bg-slate-950/90 border border-purple-500 rounded-md px-2 py-0.5 text-[10px] text-center shadow-md">
-                        <span class="text-slate-400 block uppercase font-medium tracking-tight">🌀 Elusiveness</span>
-                        <span id="view-elusiveness" class="text-purple-400 font-bold text-sm">--</span>
-                    </div>
+                        <!-- Physical Size Block -->
+                        <div class="bg-slate-950/80 border border-amber-500/80 rounded-xl px-3 py-1.5 flex justify-between items-center shadow-md">
+                            <span class="text-slate-400 uppercase font-bold tracking-wider text-[10px]">⚖️ Size</span>
+                            <span id="view-size" class="text-amber-400 font-black text-sm">--</span>
+                        </div>
 
-                    <!-- Base Speed -> Legs/Feet -->
-                    <div class="absolute bottom-[4%] left-1/2 -translate-x-1/2 bg-slate-950/90 border border-yellow-500 rounded-md px-2 py-0.5 text-[10px] text-center shadow-md">
-                        <span class="text-slate-400 block uppercase font-medium tracking-tight">⚡ Base Speed</span>
-                        <span id="view-speed" class="text-yellow-400 font-bold text-sm">--</span>
-                    </div>
+                        <!-- Elusiveness Block -->
+                        <div class="bg-slate-950/80 border border-purple-500/80 rounded-xl px-3 py-1.5 flex justify-between items-center shadow-md">
+                            <span class="text-slate-400 uppercase font-bold tracking-wider text-[10px]">🌀 Elusive</span>
+                            <span id="view-elusiveness" class="text-purple-400 font-black text-sm">--</span>
+                        </div>
 
+                        <!-- Toughness Block -->
+                        <div class="bg-slate-950/80 border border-rose-500/80 rounded-xl px-3 py-1.5 flex justify-between items-center shadow-md">
+                            <span class="text-slate-400 uppercase font-bold tracking-wider text-[10px]">❤️ Toughness</span>
+                            <span id="view-toughness" class="text-rose-400 font-black text-sm">--</span>
+                        </div>
+
+                    </div>
                 </div>
             </div>
 
@@ -200,14 +216,14 @@
                 <button id="closeHelpBtn" class="text-slate-400 hover:text-white text-xl p-1 cursor-pointer">&times;</button>
             </div>
             <div class="text-slate-300 text-sm space-y-3 leading-relaxed">
-                <p>1. You have exactly <strong>6 rounds</strong> to map out and isolate key foundational mechanics of an elite passer.</p>
+                <p>1. You have exactly <strong>6 rounds</strong> to map out and isolate key foundational mechanics of an elite academic passer.</p>
                 <p>2. Each individual round generates a completely randomized historic pro quarterback.</p>
                 <p>3. Isolate and lock in <strong>exactly one</strong> standalone trait profile to inherit from that specific prospect.</p>
                 <p>4. You are granted exactly <strong>one optional prospect re-roll per round</strong> if the configuration profile rolled doesn't complement your core operational build.</p>
                 <p>5. Completed constructs run directly through a season simulation configuration framework to verify real-time competitive output metrics.</p>
             </div>
             
-            <!-- INSTALL APP BUTTON (MOVED INSIDE MODAL) -->
+            <!-- INSTALL APP BUTTON -->
             <button id="installBtn" class="hidden w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 font-bold py-3 rounded-xl shadow transition duration-200 cursor-pointer text-sm">
                 ✨ Install App to Device
             </button>
@@ -232,7 +248,6 @@
             toughness: "Toughness"
         };
 
-        // Active State Tracking Object Architecture
         let gameState = {
             currentRound: 1,
             selectedAttributes: { gameIQ: null, arm: null, speed: null, size: null, elusiveness: null, toughness: null },
@@ -241,7 +256,6 @@
             poolRemaining: []
         };
 
-        // Fallback check ensuring data exists from external players.js file
         function initializePlayerPool() {
             if (typeof HISTORIC_QBS !== 'undefined' && Array.isArray(HISTORIC_QBS)) {
                 gameState.poolRemaining = [...HISTORIC_QBS];
@@ -251,7 +265,6 @@
             }
         }
 
-        // PWA Native Installation Interface Controller Logic
         let deferredPrompt = null;
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
@@ -270,20 +283,17 @@
             }
         });
 
-        // Interface Elements Bindings Maps
         const startScreen = document.getElementById('startScreen');
         const draftScreen = document.getElementById('draftScreen');
         const resultsScreen = document.getElementById('resultsScreen');
         const helpModal = document.getElementById('helpModal');
         const qbCard = document.getElementById('qbCard');
 
-        // Modal Action Configurations
         const toggleHelp = (show) => helpModal.classList.toggle('hidden', !show);
         document.getElementById('openHelpBtn').addEventListener('click', () => toggleHelp(true));
         document.getElementById('closeHelpBtn').addEventListener('click', () => toggleHelp(false));
         document.getElementById('confirmHelpBtn').addEventListener('click', () => toggleHelp(false));
 
-        // Core Workflow Control Routing functions
         document.getElementById('startGameBtn').addEventListener('click', startDraftSequence);
         document.getElementById('restartGameBtn').addEventListener('click', resetToDefaultState);
         document.getElementById('rerollBtn').addEventListener('click', executeProspectReroll);
@@ -317,7 +327,7 @@
             gameState.currentQB = gameState.poolRemaining.splice(index, 1)[0];
             
             qbCard.classList.remove('animate-spin-card');
-            void qbCard.offsetWidth; // DOM Reflow Trigger
+            void qbCard.offsetWidth; 
             qbCard.classList.add('animate-spin-card');
 
             updateInterfaceDraftView();
@@ -405,7 +415,6 @@
 
             const sa = gameState.selectedAttributes;
             
-            // Weighted Structural Overall Evaluation Calculation Module
             const ovr = Math.round(
                 (sa.gameIQ * 0.25) + 
                 (sa.arm * 0.25) + 
@@ -415,20 +424,17 @@
                 (sa.toughness * 0.10)
             );
 
-            // High Fidelity Randomized Season Statistics Simulator Matrix Modules
             const passYds = Math.round(3100 + (sa.arm * 13) + (sa.gameIQ * 9) + (Math.random() * 400 - 200));
             const passTDs = Math.round((sa.arm * 0.22) + (sa.gameIQ * 0.18) + (sa.size * 0.08) + (Math.random() * 8 - 4));
             const ints = Math.max(3, Math.round(26 - (sa.gameIQ * 0.22) + (Math.random() * 6 - 3)));
             const rushYds = Math.round((sa.speed * 7.5) + (sa.elusiveness * 4) + (Math.random() * 150 - 75));
             const rushTDs = Math.round((sa.speed * 0.08) + (sa.size * 0.04) + (sa.toughness * 0.04) + (Math.random() * 3 - 1.5));
 
-            // Flavor Tier Assignment Configuration Selector logic
             let tier = "The Draft Bust 🥶";
             if (ovr >= 96) tier = "The Alien Construct 👽";
             else if (ovr >= 88) tier = "The Elite Franchise 💼";
             else if (ovr >= 80) tier = "The Solid Starter 🛠️";
 
-            // Visual Data Injection rendering (Overall & Season Stats)
             document.getElementById('finalOvr').innerText = ovr;
             document.getElementById('customQbRankTier').innerText = tier;
             document.getElementById('statPassYds').innerText = passYds.toLocaleString();
@@ -436,16 +442,15 @@
             document.getElementById('statRushYds').innerText = Math.max(0, rushYds).toLocaleString();
             document.getElementById('statRushTds').innerText = Math.max(0, rushTDs);
 
-            // Biometric Anatomy Build Map Data Injection
+            // Inject metrics directly into side-stacked panel anchors smoothly
             document.getElementById('view-gameIQ').innerText = sa.gameIQ;
             document.getElementById('view-arm').innerText = sa.arm;
-            document.getElementById('view-toughness').innerText = sa.toughness;
+            document.getElementById('view-speed').innerText = sa.speed;
             document.getElementById('view-size').innerText = sa.size;
             document.getElementById('view-elusiveness').innerText = sa.elusiveness;
-            document.getElementById('view-speed').innerText = sa.speed;
+            document.getElementById('view-toughness').innerText = sa.toughness;
         }
 
-        // PWA Worker Register Layer
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js')
