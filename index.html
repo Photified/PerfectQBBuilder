@@ -121,7 +121,7 @@
                         <img src="qb.png" alt="Custom QB Blueprint" class="w-full h-auto max-h-[300px] object-contain opacity-70 drop-shadow-[0_0_15px_rgba(16,185,129,0.2)]" onerror="this.style.display='none'; alert('Asset Error: Please place your qb.png image in the project root folder.');">
                     </div>
 
-                    <!-- RIGHT SIDE: Tightly Bundled Biometric Attributes (Fixed Height Alignment Stretching) -->
+                    <!-- RIGHT SIDE: Tightly Bundled Biometric Attributes (Tight Flex Gap) -->
                     <div class="w-[50%] flex flex-col gap-1.5 relative z-20">
                         
                         <!-- 1. Game IQ (Cyan) -->
@@ -402,6 +402,7 @@
 
             const sa = gameState.selectedAttributes;
             
+            // Calculate a strictly structural Weighted Composite OVR Rating
             const ovr = Math.round(
                 (sa.gameIQ * 0.25) + 
                 (sa.arm * 0.25) + 
@@ -411,16 +412,28 @@
                 (sa.toughness * 0.10)
             );
 
-            const passYds = Math.round(3100 + (sa.arm * 13) + (sa.gameIQ * 9) + (Math.random() * 400 - 200));
-            const passTDs = Math.round((sa.arm * 0.22) + (sa.gameIQ * 0.18) + (sa.size * 0.08) + (Math.random() * 8 - 4));
-            const ints = Math.max(3, Math.round(26 - (sa.gameIQ * 0.22) + (Math.random() * 6 - 3)));
-            const rushYds = Math.round((sa.speed * 7.5) + (sa.elusiveness * 4) + (Math.random() * 150 - 75));
-            const rushTDs = Math.round((sa.speed * 0.08) + (sa.size * 0.04) + (sa.toughness * 0.04) + (Math.random() * 3 - 1.5));
+            // Re-engineered simulation math driven dynamically by structural OVR constraints
+            const passYds = Math.round((ovr * 30) + (sa.arm * 8) + (sa.gameIQ * 4) + 500 + (Math.random() * 300 - 150));
+            const passTDs = Math.round((ovr * 0.25) + (sa.arm * 0.05) + (sa.gameIQ * 0.05) - 5 + (Math.random() * 6 - 3));
+            const ints = Math.max(2, Math.round(30 - (sa.gameIQ * 0.2) - (ovr * 0.05) + (Math.random() * 4 - 2)));
+            
+            // Rushing thresholds scale realistically depending on mobility categories
+            let rushYds = 0;
+            let rushTDs = 0;
+            if (sa.speed > 70) {
+                rushYds = Math.round(((sa.speed - 60) * 15) + (sa.elusiveness * 3) + (Math.random() * 100 - 50));
+                rushTDs = Math.max(0, Math.round(((sa.speed - 70) * 0.2) + (sa.size * 0.04) + (Math.random() * 3 - 1.5)));
+            } else {
+                rushYds = Math.round((sa.speed * 1.5) + (Math.random() * 40 - 20));
+                rushTDs = Math.max(0, Math.round((sa.size * 0.02) + (Math.random() * 2 - 1)));
+            }
 
+            // Balanced competitive grading brackets
             let tier = "The Draft Bust 🥶";
             if (ovr >= 96) tier = "The Alien Construct 👽";
             else if (ovr >= 88) tier = "The Elite Franchise 💼";
-            else if (ovr >= 80) tier = "The Solid Starter 🛠️";
+            else if (ovr >= 78) tier = "The Solid Starter 🛠️";
+            else if (ovr >= 70) tier = "The Bridge Quarterback ⏳";
 
             document.getElementById('finalOvr').innerText = ovr;
             document.getElementById('customQbRankTier').innerText = tier;
@@ -429,7 +442,7 @@
             document.getElementById('statRushYds').innerText = Math.max(0, rushYds).toLocaleString();
             document.getElementById('statRushTds').innerText = Math.max(0, rushTDs);
 
-            // Inject metrics directly into side-stacked panel anchors smoothly
+            // Populate side mapping slots smoothly
             document.getElementById('view-gameIQ').innerText = sa.gameIQ;
             document.getElementById('view-arm').innerText = sa.arm;
             document.getElementById('view-speed').innerText = sa.speed;
