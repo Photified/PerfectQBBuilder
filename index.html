@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfect QB Builder</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        /* Custom styles for animations */
+        @keyframes spin-card {
+            0% { transform: scale(0.9) rotateX(0deg); opacity: 0.5; }
+            50% { transform: scale(1.05) rotateX(180deg); opacity: 0.8; }
+            100% { transform: scale(1) rotateX(360deg); opacity: 1; }
+        }
+        .animate-spin-card {
+            animation: spin-card 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans antialiased selection:bg-emerald-500 selection:text-slate-900">
+
+    <header class="bg-slate-800 border-b border-slate-700 sticky top-0 z-40 shadow-md px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center space-x-2">
+            <span class="text-2xl">🏈</span>
+            <h1 class="text-xl font-black tracking-wider uppercase bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+                Perfect QB
+            </h1>
+        </div>
+        <div class="flex items-center space-x-2">
+            <button id="installBtn" class="hidden bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 text-xs font-bold px-3 py-1.5 rounded-lg shadowTransition transition duration-200 cursor-pointer">
+                ✨ Install App
+            </button>
+            <button id="openHelpBtn" class="bg-slate-700 hover:bg-slate-600 text-slate-200 text-sm p-2 rounded-lg transition cursor-pointer" title="How to Play">
+                ❓ Help
+            </button>
+        </div>
+    </header>
+
+    <main class="max-w-md mx-auto p-4 pb-24">
+        
+        <div id="startScreen" class="text-center py-12 space-y-6">
+            <div class="text-6xl animate-bounce">🧬</div>
+            <h2 class="text-3xl font-extrabold text-white">Construct an Icon</h2>
+            <p class="text-slate-400 text-sm max-w-xs mx-auto">
+                Draft individual traits from historic NFL legends to build the ultimate, custom-engineered franchise quarterback.
+            </p>
+            <button id="startGameBtn" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-4 px-6 rounded-xl shadow-lg transition transform active:scale-95 text-lg uppercase tracking-wide cursor-pointer">
+                Start Blueprint Draft
+            </button>
+        </div>
+
+        <div id="draftScreen" class="hidden space-y-6">
+            <div class="flex justify-between items-center bg-slate-800 p-3 rounded-xl border border-slate-700">
+                <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Draft Sequence</span>
+                <span id="roundIndicator" class="bg-emerald-500/10 text-emerald-400 text-xs font-bold px-2.5 py-1 rounded-full border border-emerald-500/20">
+                    Round 1/6
+                </span>
+            </div>
+
+            <div id="qbCard" class="bg-gradient-to-b from-slate-800 to-slate-850 p-5 rounded-2xl border-2 border-slate-700 shadow-xl space-y-4 relative overflow-hidden">
+                <div class="absolute -right-8 -top-8 text-8xl opacity-5 pointer-events-none">🏈</div>
+                <div>
+                    <span class="text-xs uppercase font-bold tracking-widest text-cyan-400">Available Player Prospect</span>
+                    <h3 id="qbName" class="text-2xl font-black text-white mt-0.5">...</h3>
+                </div>
+
+                <div id="attributesPool" class="space-y-2.5">
+                    </div>
+
+                <div class="pt-2">
+                    <button id="rerollBtn" class="w-full bg-slate-700 hover:bg-slate-600 disabled:opacity-40 disabled:hover:bg-slate-700 text-white font-medium py-3 px-4 rounded-xl border border-slate-600 transition flex items-center justify-center space-x-2 cursor-pointer">
+                        <span>🔄 Re-roll Prospect</span>
+                        <span id="rerollCount" class="bg-slate-900 text-xs px-2 py-0.5 rounded-full font-bold text-amber-400">1 left</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-slate-800/60 p-4 rounded-2xl border border-slate-700/60 space-y-3">
+                <h4 class="text-xs font-bold uppercase text-slate-400 tracking-wider">Your Custom QB Blueprint</h4>
+                <div id="buildProgress" class="grid grid-cols-2 gap-2 text-xs">
+                    </div>
+            </div>
+        </div>
+
+        <div id="resultsScreen" class="hidden space-y-6">
+            <div class="text-center space-y-2">
+                <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">Simulation Complete</span>
+                <h3 id="customQbRankTier" class="text-3xl font-black uppercase text-white">...</h3>
+            </div>
+
+            <div class="bg-gradient-to-br from-emerald-500 to-teal-600 text-slate-950 p-6 rounded-2xl text-center shadow-xl relative overflow-hidden">
+                <div class="text-xs uppercase font-bold tracking-widest opacity-80">Composite Rating Score</div>
+                <div id="finalOvr" class="text-7xl font-black my-1 tracking-tighter">--</div>
+                <div class="text-xs font-medium bg-slate-950/10 inline-block px-3 py-1 rounded-full">Calculated Variable Aggregate</div>
+            </div>
+
+            <div class="bg-slate-800 rounded-2xl border border-slate-700 p-5 space-y-4 shadow-lg">
+                <h4 class="font-bold text-md text-white border-b border-slate-700 pb-2">Simulated Pro Season Metrics</h4>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-700/40">
+                        <span class="text-slate-400 text-xs block mb-0.5">Passing Yards</span>
+                        <span id="statPassYds" class="text-xl font-bold text-cyan-400">-,---</span>
+                    </div>
+                    <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-700/40">
+                        <span class="text-slate-400 text-xs block mb-0.5">Passing TDs / INTs</span>
+                        <span id="statPassTdInt" class="text-xl font-bold text-white">-- / --</span>
+                    </div>
+                    <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-700/40">
+                        <span class="text-slate-400 text-xs block mb-0.5">Rushing Yards</span>
+                        <span id="statRushYds" class="text-xl font-bold text-amber-400">---</span>
+                    </div>
+                    <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-700/40">
+                        <span class="text-slate-400 text-xs block mb-0.5">Rushing Touchdowns</span>
+                        <span id="statRushTds" class="text-xl font-bold text-emerald-400">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <button id="restartGameBtn" class="w-full bg-slate-700 hover:bg-slate-600 text-white font-bold py-4 px-6 rounded-xl transition cursor-pointer uppercase tracking-wider text-sm">
+                Scrap & Restart Project
+            </button>
+        </div>
+    </main>
+
+    <div id="helpModal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-800 border border-slate-700 max-w-sm w-full rounded-2xl p-6 shadow-2xl space-y-4">
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-bold text-white flex items-center space-x-2">
+                    <span>📋</span> <span>Laboratory Directives</span>
+                </h3>
+                <button id="closeHelpBtn" class="text-slate-400 hover:text-white text-xl p-1 cursor-pointer">&times;</button>
+            </div>
+            <div class="text-slate-300 text-sm space-y-3 leading-relaxed">
+                <p>1. You have exactly **6 rounds** to map out and isolate key foundational mechanics of an elite passer.</p>
+                <p>2. Each individual round generates a completely randomized historic pro quarterback.</p>
+                <p>3. Isolate and lock in **exactly one** standalone trait profile to inherit from that specific prospect.</p>
+                <p>4. You are granted exactly **one optional prospect re-roll per round** if the configuration profile rolled doesn't complement your core operational build.</p>
+                <p>5. Completed constructs run directly through a season simulation configuration framework to verify real-time competitive output metrics.</p>
+            </div>
+            <button id="confirmHelpBtn" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-2.5 rounded-xl transition cursor-pointer">
+                Acknowledge Directive
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Core Historic Data Matrix Array
+        const HISTORIC_QBS = [
+            { name: "Tom Brady (2007)", attributes: { gameIQ: 99, arm: 92, speed: 52, size: 91, elusiveness: 48, toughness: 96 } },
+            { name: "Michael Vick (2004)", attributes: { gameIQ: 76, arm: 97, speed: 99, size: 75, elusiveness: 99, toughness: 84 } },
+            { name: "Peyton Manning (2013)", attributes: { gameIQ: 99, arm: 85, speed: 48, size: 93, elusiveness: 42, toughness: 90 } },
+            { name: "Josh Allen (2023)", attributes: { gameIQ: 89, arm: 99, speed: 88, size: 98, elusiveness: 84, toughness: 98 } },
+            { name: "Lamar Jackson (2019)", attributes: { gameIQ: 88, arm: 86, speed: 98, size: 80, elusiveness: 99, toughness: 86 } },
+            { name: "Patrick Mahomes (2018)", attributes: { gameIQ: 96, arm: 97, speed: 79, size: 88, elusiveness: 92, toughness: 93 } },
+            { name: "Cam Newton (2015)", attributes: { gameIQ: 84, arm: 94, speed: 89, size: 99, elusiveness: 82, toughness: 99 } },
+            { name: "Dan Marino (1984)", attributes: { gameIQ: 95, arm: 99, speed: 45, size: 90, elusiveness: 40, toughness: 88 } },
+            { name: "Drew Brees (2011)", attributes: { gameIQ: 98, arm: 86, speed: 62, size: 76, elusiveness: 65, toughness: 92 } },
+            { name: "Aaron Rodgers (2011)", attributes: { gameIQ: 97, arm: 95, speed: 76, size: 86, elusiveness: 85, toughness: 89 } }
+        ];
+
+        const CATEGORIES = {
+            gameIQ: "Game IQ",
+            arm: "Arm Strength",
+            speed: "Base Speed",
+            size: "Physical Size",
+            elusiveness: "Elusiveness",
+            toughness: "Toughness"
+        };
+
+        // Active State Tracking Object Architecture
+        let gameState = {
+            currentRound: 1,
+            selectedAttributes: { gameIQ: null, arm: null, speed: null, size: null, elusiveness: null, toughness: null },
+            currentQB: null,
+            reRollsLeftThisRound: 1,
+            poolRemaining: [...HISTORIC_QBS]
+        };
+
+        // PWA Native Installation Interface Controller Logic
+        let deferredPrompt = null;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('installBtn').classList.remove('hidden');
+        });
+
+        document.getElementById('installBtn').addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    document.getElementById('installBtn').classList.add('hidden');
+                }
+                deferredPrompt = null;
+            }
+        });
+
+        // Interface Elements Bindings Maps
+        const startScreen = document.getElementById('startScreen');
+        const draftScreen = document.getElementById('draftScreen');
+        const resultsScreen = document.getElementById('resultsScreen');
+        const helpModal = document.getElementById('helpModal');
+        const qbCard = document.getElementById('qbCard');
+
+        // Modal Action Configurations
+        const toggleHelp = (show) => helpModal.classList.toggle('hidden', !show);
+        document.getElementById('openHelpBtn').addEventListener('click', () => toggleHelp(true));
+        document.getElementById('closeHelpBtn').addEventListener('click', () => toggleHelp(false));
+        document.getElementById('confirmHelpBtn').addEventListener('click', () => toggleHelp(false));
+
+        // Core Workflow Control Routing functions
+        document.getElementById('startGameBtn').addEventListener('click', startDraftSequence);
+        document.getElementById('restartGameBtn').addEventListener('click', resetToDefaultState);
+        document.getElementById('rerollBtn').addEventListener('click', executeProspectReroll);
+
+        function resetToDefaultState() {
+            gameState = {
+                currentRound: 1,
+                selectedAttributes: { gameIQ: null, arm: null, speed: null, size: null, elusiveness: null, toughness: null },
+                currentQB: null,
+                reRollsLeftThisRound: 1,
+                poolRemaining: [...HISTORIC_QBS]
+            };
+            resultsScreen.classList.add('hidden');
+            startScreen.classList.remove('hidden');
+        }
+
+        function startDraftSequence() {
+            startScreen.classList.add('hidden');
+            draftScreen.classList.remove('hidden');
+            renderProgressContainerSkeleton();
+            fetchRandomProspectCard();
+        }
+
+        function fetchRandomProspectCard() {
+            if (gameState.poolRemaining.length === 0) {
+                gameState.poolRemaining = [...HISTORIC_QBS];
+            }
+            const index = Math.floor(Math.random() * gameState.poolRemaining.length);
+            gameState.currentQB = gameState.poolRemaining.splice(index, 1)[0];
+            
+            // Visual Animation Roll Execution Trigger
+            qbCard.classList.remove('animate-spin-card');
+            void qbCard.offsetWidth; // DOM Reflow Trigger
+            qbCard.addClassName = qbCard.classList.add('animate-spin-card');
+
+            updateInterfaceDraftView();
+        }
+
+        function executeProspectReroll() {
+            if (gameState.reRollsLeftThisRound > 0) {
+                gameState.reRollsLeftThisRound--;
+                fetchRandomProspectCard();
+            }
+        }
+
+        function renderProgressContainerSkeleton() {
+            const container = document.getElementById('buildProgress');
+            container.innerHTML = '';
+            Object.keys(CATEGORIES).forEach(key => {
+                const div = document.createElement('div');
+                div.id = `prog-${key}`;
+                div.className = "p-2 bg-slate-900/40 border border-slate-700/50 rounded-lg flex justify-between items-center text-slate-400";
+                div.innerHTML = `<span>${CATEGORIES[key]}:</span> <span class="font-bold text-slate-500">Empty</span>`;
+                container.appendChild(div);
+            });
+        }
+
+        function updateInterfaceDraftView() {
+            document.getElementById('roundIndicator').innerText = `Round ${gameState.currentRound}/6`;
+            document.getElementById('qbName').innerText = gameState.currentQB.name;
+            
+            const rerollBtn = document.getElementById('rerollBtn');
+            document.getElementById('rerollCount').innerText = `${gameState.reRollsLeftThisRound} left`;
+            rerollBtn.disabled = gameState.reRollsLeftThisRound === 0;
+
+            const poolEl = document.getElementById('attributesPool');
+            poolEl.innerHTML = '';
+
+            Object.keys(CATEGORIES).forEach(key => {
+                const val = gameState.currentQB.attributes[key];
+                const isAlreadyLocked = gameState.selectedAttributes[key] !== null;
+
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left p-3 rounded-xl border flex justify-between items-center transition group text-sm font-medium cursor-pointer ${
+                    isAlreadyLocked 
+                    ? 'bg-slate-900/30 border-slate-800 text-slate-600 cursor-not-allowed' 
+                    : 'bg-slate-800/80 border-slate-700 text-slate-200 hover:border-emerald-500 hover:bg-slate-750'
+                }`;
+                btn.disabled = isAlreadyLocked;
+                
+                btn.innerHTML = `
+                    <div class="flex flex-col">
+                        <span class="text-xs ${isAlreadyLocked ? 'text-slate-600' : 'text-slate-400 group-hover:text-emerald-400'}">${CATEGORIES[key]}</span>
+                        <span class="font-bold text-base">${val}</span>
+                    </div>
+                    ${isAlreadyLocked 
+                        ? '<span class="text-xs uppercase font-semibold text-slate-600">Locked</span>' 
+                        : '<span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs px-2.5 py-1 rounded-md opacity-0 group-hover:opacity-100 transition">Select Trait</span>'
+                    }
+                `;
+
+                if (!isAlreadyLocked) {
+                    btn.addEventListener('click', () => captureAttributeSelection(key, val));
+                }
+                poolEl.appendChild(btn);
+            });
+        }
+
+        function captureAttributeSelection(key, value) {
+            gameState.selectedAttributes[key] = value;
+            
+            // Dynamic Progress Sheet Metric Update execution
+            const progRow = document.getElementById(`prog-${key}`);
+            progRow.className = "p-2 bg-emerald-950/20 border border-emerald-500/20 rounded-lg flex justify-between items-center text-emerald-400";
+            progRow.innerHTML = `<span>${CATEGORIES[key]}:</span> <span class="font-bold text-white">${value}</span>`;
+
+            if (gameState.currentRound >= 6) {
+                concludeDraftProcessAndRunSims();
+            } else {
+                gameState.currentRound++;
+                gameState.reRollsLeftThisRound = 1; // Replenish round re-roll availability threshold
+                fetchRandomProspectCard();
+            }
+        }
+
+        function concludeDraftProcessAndRunSims() {
+            draftScreen.classList.add('hidden');
+            resultsScreen.classList.remove('hidden');
+
+            const sa = gameState.selectedAttributes;
+            
+            // Weighted Structural Overall Evaluation Calculation Module
+            const ovr = Math.round(
+                (sa.gameIQ * 0.25) + 
+                (sa.arm * 0.25) + 
+                (sa.speed * 0.15) + 
+                (sa.elusiveness * 0.15) + 
+                (sa.size * 0.10) + 
+                (sa.toughness * 0.10)
+            );
+
+            // High Fidelity Randomized Season Statistics Simulator Matrix Modules
+            const passYds = Math.round(3100 + (sa.arm * 13) + (sa.gameIQ * 9) + (Math.random() * 400 - 200));
+            const passTDs = Math.round((sa.arm * 0.22) + (sa.gameIQ * 0.18) + (sa.size * 0.08) + (Math.random() * 8 - 4));
+            const ints = Math.max(3, Math.round(26 - (sa.gameIQ * 0.22) + (Math.random() * 6 - 3)));
+            const rushYds = Math.round((sa.speed * 7.5) + (sa.elusiveness * 4) + (Math.random() * 150 - 75));
+            const rushTDs = Math.round((sa.speed * 0.08) + (sa.size * 0.04) + (sa.toughness * 0.04) + (Math.random() * 3 - 1.5));
+
+            // Flavor Tier Assignment Configuration Selector logic
+            let tier = "The Draft Bust 🥶";
+            if (ovr >= 96) tier = "The Alien Construct 👽";
+            else if (ovr >= 88) tier = "The Elite Franchise 💼";
+            else if (ovr >= 80) tier = "The Solid Starter 🛠️";
+
+            // Visual Data Injection rendering
+            document.getElementById('finalOvr').innerText = ovr;
+            document.getElementById('customQbRankTier').innerText = tier;
+            document.getElementById('statPassYds').innerText = passYds.toLocaleString();
+            document.getElementById('statPassTdInt').innerText = `${passTDs} / ${ints}`;
+            document.getElementById('statRushYds').innerText = Math.max(0, rushYds).toLocaleString();
+            document.getElementById('statRushTds').innerText = Math.max(0, rushTDs);
+        }
+
+        // PWA Worker Register Layer
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('Service Worker Registered Successfully', reg.scope))
+                    .catch(err => console.log('Service Worker Failure', err));
+            });
+        }
+    </script>
+</body>
+</html>
