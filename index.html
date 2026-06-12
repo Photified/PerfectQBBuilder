@@ -104,8 +104,61 @@
             <!-- Big Rating Badge -->
             <div class="bg-gradient-to-br from-emerald-500 to-teal-600 text-slate-950 p-6 rounded-2xl text-center shadow-xl relative overflow-hidden">
                 <div class="text-xs uppercase font-bold tracking-widest opacity-80">Composite Rating Score</div>
-                <div id="finalOvr" class="text-7xl font-black my-1 tracking-tighter">--</div>
-                <div class="text-xs font-medium bg-slate-950/10 inline-block px-3 py-1 rounded-full">Calculated Variable Aggregate</div>
+                <div id="finalOvr" class="text-7xl font-black mt-1 tracking-tighter">--</div>
+            </div>
+
+            <!-- VISUAL ANATOMY BLUEPRINT INTERFACE -->
+            <div class="bg-slate-850 border border-slate-700/80 rounded-2xl p-4 shadow-lg space-y-3 relative">
+                <h4 class="text-xs font-bold uppercase text-slate-400 tracking-wider text-center">Biometric Build Mapping</h4>
+                
+                <div class="relative w-full h-80 bg-slate-900/60 border border-slate-800 rounded-xl overflow-hidden flex justify-center items-center">
+                    
+                    <!-- SVG Grid Blueprint Underlay background -->
+                    <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: linear-gradient(to right, #334155 1px, transparent 1px), linear-gradient(to bottom, #334155 1px, transparent 1px); background-size: 20px 20px;"></div>
+
+                    <!-- Centered Front-Facing Football Player Wireframe Silhouette -->
+                    <svg class="w-auto h-64 text-slate-700/50 fill-current drop-shadow-[0_0_15px_rgba(16,185,129,0.1)]" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zm3.5 5.5h-7A2.5 2.5 0 0 0 6 10v4.5a1.5 1.5 0 0 0 1.5 1.5h1v6a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-5h1v5a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-6h1a1.5 1.5 0 0 0 1.5-1.5V10a2.5 2.5 0 0 0-2.5-2.5z"/>
+                    </svg>
+
+                    <!-- ANATOMY MAPPING OVERLAYS WITH TARGETED POINTER LABELS -->
+                    <!-- Game IQ -> Head -->
+                    <div class="absolute top-[4%] left-1/2 -translate-x-1/2 bg-slate-950/90 border border-cyan-500 rounded-md px-2 py-0.5 text-[10px] text-center shadow-md">
+                        <span class="text-slate-400 block uppercase font-medium tracking-tight">🧠 Game IQ</span>
+                        <span id="view-gameIQ" class="text-cyan-400 font-bold text-sm">--</span>
+                    </div>
+
+                    <!-- Arm Strength -> Throwing Arm -->
+                    <div class="absolute top-[26%] right-[6%] bg-slate-950/90 border border-emerald-500 rounded-md px-2 py-0.5 text-[10px] text-center shadow-md">
+                        <span class="text-slate-400 block uppercase font-medium tracking-tight">💪 Arm Strength</span>
+                        <span id="view-arm" class="text-emerald-400 font-bold text-sm">--</span>
+                    </div>
+
+                    <!-- Toughness -> Heart/Chest Core -->
+                    <div class="absolute top-[32%] left-[6%] bg-slate-950/90 border border-rose-500 rounded-md px-2 py-0.5 text-[10px] text-center shadow-md">
+                        <span class="text-slate-400 block uppercase font-medium tracking-tight">❤️ Toughness</span>
+                        <span id="view-toughness" class="text-rose-400 font-bold text-sm">--</span>
+                    </div>
+
+                    <!-- Physical Size -> Full Frame/Torso -->
+                    <div class="absolute top-[52%] right-[6%] bg-slate-950/90 border border-amber-500 rounded-md px-2 py-0.5 text-[10px] text-center shadow-md">
+                        <span class="text-slate-400 block uppercase font-medium tracking-tight">⚖️ Size</span>
+                        <span id="view-size" class="text-amber-400 font-bold text-sm">--</span>
+                    </div>
+
+                    <!-- Elusiveness -> Hips/Core Agility -->
+                    <div class="absolute top-[58%] left-[6%] bg-slate-950/90 border border-purple-500 rounded-md px-2 py-0.5 text-[10px] text-center shadow-md">
+                        <span class="text-slate-400 block uppercase font-medium tracking-tight">🌀 Elusiveness</span>
+                        <span id="view-elusiveness" class="text-purple-400 font-bold text-sm">--</span>
+                    </div>
+
+                    <!-- Base Speed -> Legs/Feet -->
+                    <div class="absolute bottom-[4%] left-1/2 -translate-x-1/2 bg-slate-950/90 border border-yellow-500 rounded-md px-2 py-0.5 text-[10px] text-center shadow-md">
+                        <span class="text-slate-400 block uppercase font-medium tracking-tight">⚡ Base Speed</span>
+                        <span id="view-speed" class="text-yellow-400 font-bold text-sm">--</span>
+                    </div>
+
+                </div>
             </div>
 
             <!-- Simulated Pro Season Statistics Display -->
@@ -194,7 +247,6 @@
                 gameState.poolRemaining = [...HISTORIC_QBS];
             } else {
                 console.error("Error: 'HISTORIC_QBS' array not found. Ensure players.js is loaded correctly.");
-                // Emergency fallback profile
                 gameState.poolRemaining = [{ name: "Missing Data Asset", attributes: { gameIQ: 50, arm: 50, speed: 50, size: 50, elusiveness: 50, toughness: 50 } }];
             }
         }
@@ -204,7 +256,6 @@
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            // Reveal the install button inside the modal when the browser permits PWA installation
             document.getElementById('installBtn').classList.remove('hidden');
         });
 
@@ -265,7 +316,6 @@
             const index = Math.floor(Math.random() * gameState.poolRemaining.length);
             gameState.currentQB = gameState.poolRemaining.splice(index, 1)[0];
             
-            // Visual Animation Roll Execution Trigger
             qbCard.classList.remove('animate-spin-card');
             void qbCard.offsetWidth; // DOM Reflow Trigger
             qbCard.classList.add('animate-spin-card');
@@ -336,7 +386,6 @@
         function captureAttributeSelection(key, value) {
             gameState.selectedAttributes[key] = value;
             
-            // Dynamic Progress Sheet Metric Update execution
             const progRow = document.getElementById(`prog-${key}`);
             progRow.className = "p-2 bg-emerald-950/20 border border-emerald-500/20 rounded-lg flex justify-between items-center text-emerald-400";
             progRow.innerHTML = `<span>${CATEGORIES[key]}:</span> <span class="font-bold text-white">${value}</span>`;
@@ -345,7 +394,7 @@
                 concludeDraftProcessAndRunSims();
             } else {
                 gameState.currentRound++;
-                gameState.reRollsLeftThisRound = 1; // Replenish round re-roll availability threshold
+                gameState.reRollsLeftThisRound = 1; 
                 fetchRandomProspectCard();
             }
         }
@@ -379,13 +428,21 @@
             else if (ovr >= 88) tier = "The Elite Franchise 💼";
             else if (ovr >= 80) tier = "The Solid Starter 🛠️";
 
-            // Visual Data Injection rendering
+            // Visual Data Injection rendering (Overall & Season Stats)
             document.getElementById('finalOvr').innerText = ovr;
             document.getElementById('customQbRankTier').innerText = tier;
             document.getElementById('statPassYds').innerText = passYds.toLocaleString();
             document.getElementById('statPassTdInt').innerText = `${passTDs} / ${ints}`;
             document.getElementById('statRushYds').innerText = Math.max(0, rushYds).toLocaleString();
             document.getElementById('statRushTds').innerText = Math.max(0, rushTDs);
+
+            // Biometric Anatomy Build Map Data Injection
+            document.getElementById('view-gameIQ').innerText = sa.gameIQ;
+            document.getElementById('view-arm').innerText = sa.arm;
+            document.getElementById('view-toughness').innerText = sa.toughness;
+            document.getElementById('view-size').innerText = sa.size;
+            document.getElementById('view-elusiveness').innerText = sa.elusiveness;
+            document.getElementById('view-speed').innerText = sa.speed;
         }
 
         // PWA Worker Register Layer
